@@ -1,5 +1,6 @@
-import React from 'react';
-import { Website } from './WebsiteTable';
+// WebsiteForm.tsx
+import React from "react";
+import { Website } from "../contexts/WebsiteContext";
 
 interface WebsiteFormProps {
   website: Website;
@@ -9,8 +10,18 @@ interface WebsiteFormProps {
 export const WebsiteForm: React.FC<WebsiteFormProps> = ({ website, onChange }) => {
   return (
     <div className="space-y-4">
+      <input
+        type="hidden"
+        value={website.user_id}
+        onChange={(e) =>
+          onChange({ ...website, user_id: Number(e.target.value) })
+        }
+        required
+      />
       <div>
-        <label className="block text-sm font-medium text-white">Nome do Website</label>
+        <label className="block text-sm font-medium text-white">
+          Nome do Website
+        </label>
         <input
           type="text"
           value={website.name}
@@ -20,12 +31,12 @@ export const WebsiteForm: React.FC<WebsiteFormProps> = ({ website, onChange }) =
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-white">URL</label>
+        <label className="block text-sm font-medium text-white">Domain</label>
         <input
           type="url"
-          value={website.url}
-          onChange={(e) => onChange({ ...website, url: e.target.value })}
-          className="mt-1 text-black block w-full border border-gray-300 rounded p-2"
+          value={website.domain}
+          onChange={(e) => onChange({ ...website, domain: e.target.value })}
+          className="mt-1 block w-full border border-gray-300 text-black rounded p-2"
           required
         />
       </div>

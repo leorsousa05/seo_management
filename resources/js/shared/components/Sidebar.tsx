@@ -1,9 +1,18 @@
 import { Icon } from "@iconify/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export const Sidebar = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
-    <div className="w-64 h-screen bg-[#16161a] text-[#fffffe] p-4 border-r border-[#24242a]">
+    <div className="w-64 h-screen bg-[#16161a] text-[#fffffe] p-4 border-r border-[#24242a] flex flex-col justify-between">
       <ul>
         <li className="mb-2">
           <Link
@@ -14,7 +23,6 @@ export const Sidebar = () => {
             <span>Dashboard</span>
           </Link>
         </li>
-
         <li className="mb-2">
           <Link
             to="/blog-creation"
@@ -24,7 +32,6 @@ export const Sidebar = () => {
             <span>Criação de Blogs</span>
           </Link>
         </li>
-
         <li className="mb-2">
           <Link
             to="/users"
@@ -34,7 +41,6 @@ export const Sidebar = () => {
             <span>Usuários</span>
           </Link>
         </li>
-
         <li className="mb-2">
           <Link
             to="/conversion-pages"
@@ -44,7 +50,6 @@ export const Sidebar = () => {
             <span>Páginas de Conversão</span>
           </Link>
         </li>
-
         <li className="mb-2">
           <Link
             to="/website-management"
@@ -55,6 +60,13 @@ export const Sidebar = () => {
           </Link>
         </li>
       </ul>
+      <button
+        onClick={handleLogout}
+        className="w-full flex items-center gap-3 p-3 rounded-md hover:bg-[#24242a] transition"
+      >
+        <Icon icon="mdi:logout" width="24" height="24" />
+        <span>Logoff</span>
+      </button>
     </div>
   );
 };

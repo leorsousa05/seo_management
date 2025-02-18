@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
-import { Icon } from '@iconify/react';
-import { Website, WebsiteTable } from '../components/WebsiteTable';
-import { WebsiteForm } from '../components/WebsiteForm';
-import {Modal} from '@/shared/components/Modal';
-import Snackbar from '@/shared/components/Snackbar';
+import React, { useState } from "react";
+import { Icon } from "@iconify/react";
+import { Website, WebsiteTable } from "../components/WebsiteTable";
+import { WebsiteForm } from "../components/WebsiteForm";
+import { Modal } from "@/shared/components/Modal";
+import Snackbar from "@/shared/components/Snackbar";
+import { useWebsites } from "../contexts/WebsiteContext";
 
 export const WebsiteManagement: React.FC = () => {
-  const [websites, setWebsites] = useState<Website[]>([
-    { id: '1', name: 'Exemplo 1', url: 'https://exemplo1.com', description: 'Site de exemplo' },
-    { id: '2', name: 'Exemplo 2', url: 'https://exemplo2.com', description: 'Outro site de exemplo' },
-  ]);
+  const { websites, addWebsite, updateWebsite, deleteWebsite } = useWebsites();
   const [openDialog, setOpenDialog] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [currentWebsite, setCurrentWebsite] = useState<Website>({ id: '', name: '', url: '', description: '' });
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' });
-  const [searchTerm, setSearchTerm] = useState('');
+  const [currentWebsite, setCurrentWebsite] = useState<Website>({
+    id: "",
+    user_id: 0,
+    name: "",
+    domain: "",
+  });
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success" as "success" | "error",
+  });
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleOpenAdd = () => {
-    setCurrentWebsite({ id: '', name: '', url: '', description: '' });
+    setCurrentWebsite({ id: "", user_id: 0, name: "", domain: "" });
     setEditMode(false);
     setOpenDialog(true);
   };
@@ -32,32 +39,34 @@ export const WebsiteManagement: React.FC = () => {
     setOpenDialog(false);
   };
 
-  const handleDelete = (id: string) => {
-    setWebsites(websites.filter(website => website.id !== id));
-    showSnackbar('Website removido com sucesso!', 'success');
+  const handleDelete = async (id: string) => {
+    await deleteWebsite(id);
+    showSnackbar("Website removido com sucesso!", "success");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (editMode) {
-      setWebsites(websites.map(website =>
-        website.id === currentWebsite.id ? currentWebsite : website
-      ));
-      showSnackbar('Website atualizado com sucesso!', 'success');
+      await updateWebsite(currentWebsite);
+      showSnackbar("Website atualizado com sucesso!", "success");
     } else {
-      setWebsites([...websites, { ...currentWebsite, id: Date.now().toString() }]);
-      showSnackbar('Website adicionado com sucesso!', 'success');
+      await addWebsite({
+        name: currentWebsite.name,
+        domain: currentWebsite.domain,
+      });
+      showSnackbar("Website adicionado com sucesso!", "success");
     }
     setOpenDialog(false);
   };
 
-  const showSnackbar = (message: string, severity: 'success' | 'error') => {
+  const showSnackbar = (message: string, severity: "success" | "error") => {
     setSnackbar({ open: true, message, severity });
     setTimeout(() => setSnackbar({ ...snackbar, open: false }), 3000);
   };
 
-  const filteredWebsites = websites.filter(website =>
-    website.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    website.url.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredWebsites = websites.filter(
+    (website) =>
+      website.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      website.domain.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -81,20 +90,30 @@ export const WebsiteManagement: React.FC = () => {
           </button>
         </div>
       </div>
-      <WebsiteTable websites={filteredWebsites} onEdit={handleOpenEdit} onDelete={handleDelete} />
+      <WebsiteTable
+        websites={filteredWebsites}
+        onEdit={handleOpenEdit}
+        onDelete={handleDelete}
+      />
       {openDialog && (
-        <Modal title={editMode ? 'Editar Website' : 'Novo Website'} onClose={handleCloseDialog}>
+        <Modal
+          title={editMode ? "Editar Website" : "Novo Website"}
+          onClose={handleCloseDialog}
+        >
           <WebsiteForm website={currentWebsite} onChange={setCurrentWebsite} />
           <div className="flex justify-end mt-6 space-x-4">
-            <button onClick={handleCloseDialog} className="px-4 py-2 border border-[#24242a] text-[#fffffe] rounded hover:bg-[#24242a]">
+            <button
+              onClick={handleCloseDialog}
+              className="px-4 py-2 border border-[#24242a] text-[#fffffe] rounded hover:bg-[#24242a]"
+            >
               Cancelar
             </button>
             <button
               onClick={handleSubmit}
-              disabled={!currentWebsite.name || !currentWebsite.url}
+              disabled={!currentWebsite.name || !currentWebsite.domain}
               className="bg-[#7f5af0] text-[#fffffe] px-4 py-2 rounded hover:bg-[#5f3dc4] disabled:opacity-50"
             >
-              {editMode ? 'Salvar Alterações' : 'Adicionar'}
+              {editMode ? "Salvar Alterações" : "Adicionar"}
             </button>
           </div>
         </Modal>
