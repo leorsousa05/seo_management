@@ -24,8 +24,12 @@ class UserController extends Controller
         $data = $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:6',
+            'role'     => 'sometimes|in:admin,client'
         ]);
+
+        // Define o valor padrão para a role se não for informado
+        $data['role'] = $data['role'] ?? 'cliente';
 
         $data['password'] = bcrypt($data['password']);
 
@@ -53,7 +57,8 @@ class UserController extends Controller
         $data = $request->validate([
             'name'     => 'sometimes|required|string|max:255',
             'email'    => 'sometimes|required|email|unique:users,email,'.$user->id,
-            'password' => 'sometimes|required|string|min:6'
+            'password' => 'sometimes|required|string|min:6',
+            'role'     => 'sometimes|in:admin,cliente'
         ]);
 
         if(isset($data['password'])) {

@@ -1,8 +1,13 @@
-// src/pages/Login.tsx
 import { useState, FormEvent } from "react";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "@/shared/contexts/AuthContext";
 
 export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -12,98 +17,85 @@ export default function Login() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
     try {
-      const response = await fetch("/v1/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Erro ao efetuar login.");
-      } else {
-        console.log("Login realizado com sucesso!", data);
-      }
-    } catch (err) {
-      setError("Erro na conexão com o servidor.");
+      await login(email, password);
+      toast.success("Login realizado com sucesso!");
+      setTimeout(() => {
+        navigate("/dashboard", { state: { message: "Login realizado com sucesso!" } });
+      }, 1500);
+    } catch (err: any) {
+      setError(err.message || "Erro ao efetuar login.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-xs bg-white p-8 rounded shadow-md">
-        <h2 className="text-2xl font-bold text-center text-purple-700 mb-6">
-          Bem-vindo de volta!
-        </h2>
-
-        {error && (
-          <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-1" htmlFor="email">
-              Seu e-mail
-            </label>
-            <div className="flex items-center border border-gray-300 rounded">
-              <span className="px-3">
-                <Icon icon="mdi:email-outline" width="24" height="24" color="#6e2390" />
-              </span>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full py-2 px-2 focus:outline-none focus:border-purple-700 rounded-r"
-                placeholder="seuemail@exemplo.com"
-              />
+    <>
+      <ToastContainer />
+      <div className="min-h-screen flex items-center justify-center bg-[#16161a]">
+        <div className="w-full max-w-sm bg-[#1a1a1e] p-8 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-semibold text-center text-[#fffffe] mb-6">
+            Bem-vindo de volta!
+          </h2>
+          {error && (
+            <div className="mb-4 p-2 bg-red-500 text-[#fffffe] rounded text-center">
+              {error}
             </div>
-          </div>
-
-          <div className="mb-6">
-            <label className="block text-gray-700 mb-1" htmlFor="password">
-              Sua senha
-            </label>
-            <div className="flex items-center border border-gray-300 rounded">
-              <span className="px-3">
-                <Icon icon="mdi:lock-outline" width="24" height="24" color="#6e2390" />
-              </span>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full py-2 px-2 focus:outline-none focus:border-purple-700 rounded-r"
-                placeholder="********"
-              />
+          )}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-[#94a1b2] mb-2" htmlFor="email">
+                Seu e-mail
+              </label>
+              <div className="flex items-center border border-[#94a1b2] rounded-lg bg-[#242427]">
+                <span className="px-3">
+                  <Icon icon="mdi:email-outline" width="24" height="24" color="#7f5af0" />
+                </span>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full bg-transparent py-2 px-2 text-[#fffffe] focus:outline-none focus:border-[#7f5af0] rounded-r"
+                  placeholder="seuemail@exemplo.com"
+                />
+              </div>
             </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-purple-700 text-white py-2 rounded hover:bg-purple-800 transition-colors mb-4 disabled:opacity-50"
-          >
-            {loading ? "Carregando..." : "Entrar agora"}
-          </button>
-        </form>
-
-        <p className="text-center text-sm text-gray-600 hover:underline cursor-pointer">
-          Esqueceu sua senha?
-        </p>
+            <div>
+              <label className="block text-[#94a1b2] mb-2" htmlFor="password">
+                Sua senha
+              </label>
+              <div className="flex items-center border border-[#94a1b2] rounded-lg bg-[#242427]">
+                <span className="px-3">
+                  <Icon icon="mdi:lock-outline" width="24" height="24" color="#7f5af0" />
+                </span>
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full bg-transparent py-2 px-2 text-[#fffffe] focus:outline-none focus:border-[#7f5af0] rounded-r"
+                  placeholder="********"
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#7f5af0] text-[#fffffe] py-2 rounded-lg hover:bg-[#6a4be2] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Carregando..." : "Entrar agora"}
+            </button>
+          </form>
+          <p className="text-center text-sm text-[#94a1b2] mt-4 hover:text-[#7f5af0] cursor-pointer transition-all">
+            Esqueceu sua senha?
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

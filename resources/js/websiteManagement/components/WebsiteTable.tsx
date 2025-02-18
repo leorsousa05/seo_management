@@ -1,4 +1,3 @@
-// src/components/WebsiteTable.tsx
 import React from 'react';
 import { Icon } from '@iconify/react';
 
@@ -15,38 +14,38 @@ interface WebsiteTableProps {
   onDelete: (id: string) => void;
 }
 
-const WebsiteTable: React.FC<WebsiteTableProps> = ({ websites, onEdit, onDelete }) => {
+export const WebsiteTable: React.FC<WebsiteTableProps> = ({ websites, onEdit, onDelete }) => {
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead className="bg-gray-100">
+      <table className="min-w-full bg-[#24242a] border border-[#24242a]">
+        <thead className="bg-[#16161a] text-[#fffffe]">
           <tr>
-            <th className="py-2 px-4 border-b">Nome</th>
-            <th className="py-2 px-4 border-b">URL</th>
-            <th className="py-2 px-4 border-b">Descrição</th>
-            <th className="py-2 px-4 border-b text-center">Ações</th>
+            <th className="py-2 px-4 border-b border-[#24242a]">Nome</th>
+            <th className="py-2 px-4 border-b border-[#24242a]">URL</th>
+            <th className="py-2 px-4 border-b border-[#24242a]">Descrição</th>
+            <th className="py-2 px-4 border-b border-[#24242a] text-center">Ações</th>
           </tr>
         </thead>
         <tbody>
           {websites.map((website) => (
-            <tr key={website.id} className="hover:bg-gray-50">
-              <td className="py-2 px-4 border-b">{website.name}</td>
-              <td className="py-2 px-4 border-b">
+            <tr key={website.id} className="hover:bg-[#16161a]">
+              <td className="py-2 px-4 border-b border-[#24242a] text-[#fffffe]">{website.name}</td>
+              <td className="py-2 px-4 border-b border-[#24242a]">
                 <a
                   href={website.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="text-[#7f5af0] hover:underline"
                 >
                   {website.url}
                 </a>
               </td>
-              <td className="py-2 px-4 border-b">{website.description}</td>
-              <td className="py-2 px-4 border-b text-center">
-                <button onClick={() => onEdit(website)} className="text-yellow-600 hover:text-yellow-700 mr-2">
+              <td className="py-2 px-4 border-b border-[#24242a] text-[#94a1b2]">{website.description}</td>
+              <td className="py-2 px-4 border-b border-[#24242a] text-center">
+                <button onClick={() => onEdit(website)} className="text-[#7f5af0] hover:text-[#fffffe] mr-2">
                   <Icon icon="mdi:pencil" className="w-5 h-5" />
                 </button>
-                <button onClick={() => onDelete(website.id)} className="text-red-600 hover:text-red-700">
+                <button onClick={() => onDelete(website.id)} className="text-[#7f5af0] hover:text-[#fffffe]">
                   <Icon icon="mdi:delete" className="w-5 h-5" />
                 </button>
               </td>
@@ -57,6 +56,4 @@ const WebsiteTable: React.FC<WebsiteTableProps> = ({ websites, onEdit, onDelete 
     </div>
   );
 };
-
-export default WebsiteTable;
 

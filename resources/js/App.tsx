@@ -1,9 +1,10 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 import Login from "./auth/pages/Login"
-import Dashboard from "./dashboard/pages/Dashboard"
-import Sidebar from "./shared/components/Sidebar"
-import Navbar from "./shared/components/Navbar"
-import WebsiteManagement from "./websiteManagement/pages/WebsiteManagement"
+import { Dashboard } from "./dashboard/pages/Dashboard"
+import {Sidebar} from "./shared/components/Sidebar"
+import {Navbar} from "./shared/components/Navbar"
+import {WebsiteManagement} from "./websiteManagement/pages/WebsiteManagement"
+import { Users } from "./admin/pages/Users"
 
 export const App = () => {
     return (
@@ -15,9 +16,7 @@ export const App = () => {
                             <Sidebar />
                             <div className="flex-1">
                                 <Navbar />
-                                <div className="p-4">
-                                    <WebsiteManagement />
-                                </div>
+                                <WebsiteManagement />
                             </div>
                         </div>
                     } />
@@ -26,9 +25,16 @@ export const App = () => {
                             <Sidebar />
                             <div className="flex-1">
                                 <Navbar />
-                                <div className="p-4">
-                                    <Dashboard />
-                                </div>
+                                <Dashboard />
+                            </div>
+                        </div>
+                    } />
+                    <Route path="/users" element={
+                        <div className="flex">
+                            <Sidebar />
+                            <div className="flex-1">
+                                <Navbar />
+                                <Users />
                             </div>
                         </div>
                     } />

@@ -1,17 +1,15 @@
-// src/pages/WebsiteManagement.tsx
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
-import WebsiteTable, { Website } from '../components/WebsiteTable';
-import WebsiteForm from '../components/WebsiteForm';
-import Modal from '@/shared/components/Modal';
+import { Website, WebsiteTable } from '../components/WebsiteTable';
+import { WebsiteForm } from '../components/WebsiteForm';
+import {Modal} from '@/shared/components/Modal';
 import Snackbar from '@/shared/components/Snackbar';
 
-const WebsiteManagement: React.FC = () => {
+export const WebsiteManagement: React.FC = () => {
   const [websites, setWebsites] = useState<Website[]>([
     { id: '1', name: 'Exemplo 1', url: 'https://exemplo1.com', description: 'Site de exemplo' },
     { id: '2', name: 'Exemplo 2', url: 'https://exemplo2.com', description: 'Outro site de exemplo' },
   ]);
-
   const [openDialog, setOpenDialog] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [currentWebsite, setCurrentWebsite] = useState<Website>({ id: '', name: '', url: '', description: '' });
@@ -63,8 +61,7 @@ const WebsiteManagement: React.FC = () => {
   );
 
   return (
-    <div className="p-4">
-      {/* Cabeçalho */}
+    <div className="p-4 bg-[#16161a] text-[#fffffe] h-[calc(100vh-61px)]">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
         <h2 className="text-2xl font-bold mb-4 md:mb-0">Gerenciar Websites</h2>
         <div className="flex gap-4">
@@ -73,41 +70,35 @@ const WebsiteManagement: React.FC = () => {
             placeholder="Pesquisar websites"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="border border-gray-300 rounded p-2"
+            className="border border-[#24242a] bg-[#24242a] text-[#fffffe] rounded p-2 focus:outline-none focus:ring-2 focus:ring-[#7f5af0] placeholder-[#94a1b2]"
           />
           <button
             onClick={handleOpenAdd}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2"
+            className="bg-[#7f5af0] text-[#fffffe] px-4 py-2 rounded hover:bg-[#5f3dc4] flex items-center gap-2"
           >
             <Icon icon="mdi:plus" className="w-5 h-5" />
             Adicionar Website
           </button>
         </div>
       </div>
-
-      {/* Tabela de Websites */}
       <WebsiteTable websites={filteredWebsites} onEdit={handleOpenEdit} onDelete={handleDelete} />
-
-      {/* Modal para Adicionar/Editar */}
       {openDialog && (
         <Modal title={editMode ? 'Editar Website' : 'Novo Website'} onClose={handleCloseDialog}>
           <WebsiteForm website={currentWebsite} onChange={setCurrentWebsite} />
           <div className="flex justify-end mt-6 space-x-4">
-            <button onClick={handleCloseDialog} className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100">
+            <button onClick={handleCloseDialog} className="px-4 py-2 border border-[#24242a] text-[#fffffe] rounded hover:bg-[#24242a]">
               Cancelar
             </button>
             <button
               onClick={handleSubmit}
               disabled={!currentWebsite.name || !currentWebsite.url}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+              className="bg-[#7f5af0] text-[#fffffe] px-4 py-2 rounded hover:bg-[#5f3dc4] disabled:opacity-50"
             >
               {editMode ? 'Salvar Alterações' : 'Adicionar'}
             </button>
           </div>
         </Modal>
       )}
-
-      {/* Snackbar de Notificação */}
       <Snackbar
         open={snackbar.open}
         message={snackbar.message}
@@ -117,6 +108,4 @@ const WebsiteManagement: React.FC = () => {
     </div>
   );
 };
-
-export default WebsiteManagement;
 

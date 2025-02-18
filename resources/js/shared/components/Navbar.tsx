@@ -1,11 +1,10 @@
 import React from 'react';
 
-const Navbar: React.FC = () => {
+export const Navbar: React.FC = () => {
   return (
-    <div className="bg-gray-900 text-white p-4">
-      <h1 className="text-xl font-bold">Digitall Evolution Dashboard</h1>
+    <div className="bg-[#16161a] p-4 border-b border-[#24242a]">
+      <h1 className="text-xl font-bold text-[#fffffe]">SEO Dashboard</h1>
     </div>
   );
 };
 
-export default Navbar;
