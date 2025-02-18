@@ -62,6 +62,26 @@ return [
             ]) : [],
         ],
 
+        'seo_manager' => [
+            'driver' => 'mysql',
+            'url' => env('SEO_MANAGER_DB_URL'),
+            'host' => env('SEO_MANAGER_DB_HOST', '127.0.0.1'),
+            'port' => env('SEO_MANAGER_DB_PORT', '3306'),
+            'database' => env('SEO_MANAGER_DB_DATABASE', 'seo_manager'),
+            'username' => env('SEO_MANAGER_DB_USERNAME', 'root'),
+            'password' => env('SEO_MANAGER_DB_PASSWORD', ''),
+            'unix_socket' => env('SEO_MANAGER_DB_SOCKET', ''),
+            'charset' => env('SEO_MANAGER_DB_CHARSET', 'utf8mb4'),
+            'collation' => env('SEO_MANAGER_DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('SEO_MANAGER_MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
