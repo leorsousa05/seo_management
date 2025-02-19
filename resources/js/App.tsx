@@ -8,7 +8,7 @@ import { Users } from "./admin/pages/Users";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { JSX } from "react";
-import BlogTextsPage from "./blogs/pages/BlogTexts";
+import { BlogTextsPage } from "./blogs/pages/BlogTexts";
 
 interface ProtectedRouteProps {
   children: JSX.Element;

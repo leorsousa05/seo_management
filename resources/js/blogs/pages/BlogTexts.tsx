@@ -1,4 +1,3 @@
-// BlogTexts.tsx
 import React, { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,7 +8,7 @@ import { Modal } from "@/shared/components/Modal";
 import { BlogText, BlogCategory } from "../components/types";
 import { useBlogTexts } from "@/shared/contexts/BlogTextContext";
 import { BlogTextList } from "../components/BlogTextList";
-import BlogTextForm from "../components/BlogTextForm";
+import { BlogTextForm } from "../components/BlogTextForm";
 
 type View = "select" | "blogs";
 
@@ -45,6 +44,7 @@ export const BlogTextsPage: React.FC = () => {
     fetchBlogTexts(Number(siteId));
     fetchBlogCategories(siteId);
     setView("blogs");
+    console.log(siteId)
   };
 
   const handleCreateBlogText = async (
@@ -95,7 +95,7 @@ export const BlogTextsPage: React.FC = () => {
 
   return (
     <div className="p-4 bg-[#16161a] text-[#fffffe] h-[calc(100vh-61px)] relative overflow-hidden">
-      <AnimatePresence exitBeforeEnter custom={view === "select" ? 1 : -1}>
+      <AnimatePresence custom={view === "select" ? 1 : -1}>
         {view === "select" && (
           <motion.div
             key="select"
@@ -184,6 +184,3 @@ export const BlogTextsPage: React.FC = () => {
     </div>
   );
 };
-
-export default BlogTextsPage;
-

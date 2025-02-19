@@ -32,7 +32,7 @@ interface BlogTextFormProps {
   onSubmit: (data: Omit<BlogText, 'id' | 'created_at' | 'updated_at'>) => Promise<void>;
 }
 
-const BlogTextForm: React.FC<BlogTextFormProps> = ({ blogCategories, onSubmit }) => {
+export const BlogTextForm: React.FC<BlogTextFormProps> = ({ blogCategories, onSubmit }) => {
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
   const [blogCategoryId, setBlogCategoryId] = useState<number | null>(null);
@@ -205,6 +205,3 @@ const BlogTextForm: React.FC<BlogTextFormProps> = ({ blogCategories, onSubmit })
     </div>
   );
 };
-
-export default BlogTextForm;
-

@@ -12,7 +12,7 @@ export const Dashboard = () => {
   ];
 
   return (
-    <div className="p-6 h-[calc(100vh-60px)] overflow-y-auto bg-[#16161a]">
+    <div className="p-6 h-[calc(100vh-61px)] overflow-y-auto bg-[#16161a]">
       {/* Headline */}
       <h2 className="text-3xl font-bold mb-6 text-[#fffffe]">📊 Painel de Controle</h2>
 

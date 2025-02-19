@@ -7,25 +7,29 @@ use Illuminate\Http\Request;
 
 class BlogTextController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $texts = BlogText::all();
-        return response()->json($texts);
+        if ($request->has('site_id')) {
+            $texts = BlogText::where('site_id', $request->site_id)->get();
+        } else {
+            $texts = BlogText::all();
+        }
+    return response()->json($texts);
     }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'site_id'           => 'required|exists:sites,id',
-            'blog_category_id'  => 'nullable|exists:blog_categories,id',
-            'title'             => 'required|string|max:255',
-            'slug'              => 'required|string|max:255|unique:blog_texts',
-            'content'           => 'required|string'
+public function store(Request $request)
+{
+    $data = $request->validate([
+        'site_id'           => 'required|exists:sites,id',
+        'blog_category_id'  => 'nullable|exists:blog_categories,id',
+        'title'             => 'required|string|max:255',
+        'slug'              => 'required|string|max:255|unique:blog_texts',
+        'content'           => 'required|string'
         ]);
 
-        $blogText = BlogText::create($data);
+    $blogText = BlogText::create($data);
 
-        return response()->json($blogText, 201);
+    return response()->json($blogText, 201);
     }
 
     public function show($id)
