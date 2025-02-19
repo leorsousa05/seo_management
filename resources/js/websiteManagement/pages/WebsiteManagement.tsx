@@ -4,7 +4,7 @@ import { Website, WebsiteTable } from "../components/WebsiteTable";
 import { WebsiteForm } from "../components/WebsiteForm";
 import { Modal } from "@/shared/components/Modal";
 import Snackbar from "@/shared/components/Snackbar";
-import { useWebsites } from "../contexts/WebsiteContext";
+import { useWebsites } from "@/shared/contexts/WebsiteContext";
 
 export const WebsiteManagement: React.FC = () => {
   const { websites, addWebsite, updateWebsite, deleteWebsite } = useWebsites();

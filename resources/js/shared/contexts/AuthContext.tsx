@@ -34,11 +34,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const storedUser = localStorage.getItem("user");
     if (storedToken) {
       setToken(storedToken);
-      console.log("Token Guardado:", storedToken);
     }
     if (storedUser) {
       setUser(JSON.parse(storedUser));
-      console.log("Usuário Guardado:", storedUser);
     }
   }, []);
 

@@ -25,7 +25,7 @@ export const Sidebar = () => {
         </li>
         <li className="mb-2">
           <Link
-            to="/blog-creation"
+            to="/blog"
             className="flex items-center gap-3 p-3 rounded-md hover:bg-[#24242a] transition"
           >
             <Icon icon="mdi:note-edit" width="24" height="24" />

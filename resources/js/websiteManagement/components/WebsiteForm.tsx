@@ -1,6 +1,5 @@
-// WebsiteForm.tsx
 import React from "react";
-import { Website } from "../contexts/WebsiteContext";
+import { Website } from "@/shared/contexts/WebsiteContext";
 
 interface WebsiteFormProps {
   website: Website;

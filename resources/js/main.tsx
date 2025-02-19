@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import "../css/app.css";
 import React from 'react';
 import { AuthProvider } from './shared/contexts/AuthContext';
+import { WebsiteProvider } from './shared/contexts/WebsiteContext';
+import { BlogTextProvider } from './shared/contexts/BlogTextContext';
 
 const container = document.getElementById('root');
 
@@ -11,8 +13,12 @@ if (container) {
   root.render(
       <React.StrictMode>
         <AuthProvider>
-            <App />
-        </AuthProvider>
+            <WebsiteProvider>
+                <BlogTextProvider>
+                    <App />
+                </BlogTextProvider>
+            </WebsiteProvider>
+            </AuthProvider>
       </React.StrictMode>
   );
 } else {

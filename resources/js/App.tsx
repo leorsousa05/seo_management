@@ -8,7 +8,7 @@ import { Users } from "./admin/pages/Users";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { JSX } from "react";
-import { WebsiteProvider } from "./websiteManagement/contexts/WebsiteContext";
+import BlogTextsPage from "./blogs/pages/BlogTexts";
 
 interface ProtectedRouteProps {
   children: JSX.Element;
@@ -30,10 +30,23 @@ export const App = () => {
       <Routes>
         <Route index element={<Login />} />
         <Route
+          path="/blog"
+          element={
+            <ProtectedRoute>
+              <div className="flex">
+                <Sidebar />
+                <div className="flex-1">
+                  <Navbar />
+                  <BlogTextsPage />
+                </div>
+              </div>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/website-management"
           element={
             <ProtectedRoute>
-                <WebsiteProvider>
               <div className="flex">
                 <Sidebar />
                 <div className="flex-1">
@@ -41,7 +54,6 @@ export const App = () => {
                   <WebsiteManagement />
                 </div>
               </div>
-              </WebsiteProvider>
             </ProtectedRoute>
           }
         />
