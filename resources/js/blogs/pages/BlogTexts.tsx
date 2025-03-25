@@ -44,7 +44,7 @@ export const BlogTextsPage: React.FC = () => {
     fetchBlogTexts(Number(siteId));
     fetchBlogCategories(siteId);
     setView("blogs");
-    console.log(siteId)
+    console.log(siteId);
   };
 
   const handleCreateBlogText = async (
@@ -169,8 +169,25 @@ export const BlogTextsPage: React.FC = () => {
       {modalOpen && (
         <Modal title="Novo Texto de Blog" onClose={() => setModalOpen(false)}>
           <BlogTextForm
+            websiteId={Number(selectedSiteId)}
             blogCategories={blogCategories}
             onSubmit={handleCreateBlogText}
+            onCreateCategory={async (name: string, slug: string) => {
+              const response = await axios.post(
+                "/api/v1/blog-categories",
+                {
+                  site_id: selectedSiteId,
+                  name,
+                  slug,
+                },
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              setBlogCategories((prev) => [...prev, response.data]);
+              return response.data;
+            }}
+            onDeleteCategory={(id: number) =>
+              setBlogCategories((prev) => prev.filter((cat) => cat.id !== id))
+            }
           />
         </Modal>
       )}
@@ -184,3 +201,4 @@ export const BlogTextsPage: React.FC = () => {
     </div>
   );
 };
+

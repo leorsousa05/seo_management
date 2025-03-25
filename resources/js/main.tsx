@@ -5,6 +5,7 @@ import React from 'react';
 import { AuthProvider } from './shared/contexts/AuthContext';
 import { WebsiteProvider } from './shared/contexts/WebsiteContext';
 import { BlogTextProvider } from './shared/contexts/BlogTextContext';
+import { BlogCategoriesProvider } from './shared/contexts/BlogCategoriesContext';
 
 const container = document.getElementById('root');
 
@@ -15,7 +16,9 @@ if (container) {
         <AuthProvider>
             <WebsiteProvider>
                 <BlogTextProvider>
-                    <App />
+                    <BlogCategoriesProvider>
+                        <App />
+                    </BlogCategoriesProvider>
                 </BlogTextProvider>
             </WebsiteProvider>
             </AuthProvider>

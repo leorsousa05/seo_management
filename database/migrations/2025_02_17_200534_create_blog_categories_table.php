@@ -12,7 +12,7 @@ class CreateBlogCategoriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('site_id');
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->timestamps();
 
             // Relação com o site

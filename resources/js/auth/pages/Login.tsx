@@ -21,10 +21,29 @@ export default function Login() {
       await login(email, password);
       toast.success("Login realizado com sucesso!");
       setTimeout(() => {
-        navigate("/dashboard", { state: { message: "Login realizado com sucesso!" } });
+        navigate("/dashboard", {
+          state: { message: "Login realizado com sucesso!" },
+        });
       }, 1500);
     } catch (err: any) {
-      setError(err.message || "Erro ao efetuar login.");
+      let errorMessage = "Erro ao efetuar login.";
+      if (err.response) {
+        const contentType = err.response.headers?.["content-type"] || "";
+        if (
+          err.response.status === 500 ||
+          contentType.includes("text/html")
+        ) {
+          errorMessage = "Erro do servidor";
+        } else if (err.response.status === 401) {
+          errorMessage = "Login não existe";
+        } else if (err.response.errors && err.response.errors.email) {
+          errorMessage = err.response.errors.email;
+        }
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
